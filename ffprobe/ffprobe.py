@@ -18,7 +18,7 @@ class FFProbe:
         metadata=FFProbe('multimedia-file.mov')
     """
 
-    def __init__(self, path_to_video):
+    def __init__(self, path_to_video, *args):
         self.path_to_video = path_to_video
 
         try:
@@ -29,9 +29,9 @@ class FFProbe:
 
         if os.path.isfile(self.path_to_video) or self.path_to_video.startswith('http'):
             if platform.system() == 'Windows':
-                cmd = ["ffprobe", "-show_streams", self.path_to_video]
+                cmd = ["ffprobe", "-show_streams", self.path_to_video] + args
             else:
-                cmd = ["ffprobe -show_streams " + pipes.quote(self.path_to_video)]
+                cmd = ["ffprobe -show_streams " + pipes.quote(self.path_to_video) + " " + " ".join(args)]
 
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
